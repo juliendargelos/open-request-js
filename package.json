@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.js",
-    "doc": "jsdoc2md dist/open-request.js dist/http-response.js dist/status.js --template README.hbs --partial partials/*.hbs > README.md",
+    "doc": "npm run build;jsdoc2md dist/open-request.js dist/http-response.js dist/status.js --template README.hbs --partial partials/*.hbs > README.md",
     "commit": "npm run doc;git add .;git commit;git push",
     "release": "npm run commit;npm publish"
   },
@@ -23,8 +23,8 @@
   "author": "Julien Dargelos",
   "license": "MIT",
   "dependencies": {
-    "open-url-js": "^1.0.16",
-    "parameters-js": "^1.0.17"
+    "open-url-js": "^1.0.17",
+    "parameters-js": "^1.0.18"
   },
   "devDependencies": {
     "jsdoc-to-markdown": "^3.0.2"
