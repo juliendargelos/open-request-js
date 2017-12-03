@@ -1,6 +1,6 @@
 var Parameters = require('parameters-js');
 var Url = require('open-url-js');
-var Status = require('./status.js')
+var Status = require('./status.js');
 
 module.exports = class Request {
   static empty(value) {

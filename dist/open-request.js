@@ -1,7 +1,3 @@
-var Parameters = require('parameters-js');
-var Url = require('open-url-js');
-var Status = require('./status.js')
-
 class Request {
   static empty(value) {
     return [undefined, null].includes(value);
