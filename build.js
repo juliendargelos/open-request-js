@@ -12,3 +12,13 @@ fs.readFile('index.js', 'utf8', function(error, data) {
     if(error) throw error;
   });
 });
+
+fs.readFile('status.js', 'utf8', function(error, data) {
+  if(error) throw error;
+
+  data = data.replace(/(module\.exports\s*=\s*|var\s+[^\s]+\s*=\s*require\(['"][^'"]+['"]\);?\n+)/g, '');
+
+  fs.writeFile('dist/status.js', data, function(error) {
+    if(error) throw error;
+  });
+});
