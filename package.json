@@ -1,6 +1,6 @@
 {
   "name": "open-request-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simply send http requests.",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "open-url-js": "^1.0.4",
-    "parameters-js": "^1.0.11"
+    "parameters-js": "^1.0.12"
   },
   "devDependencies": {
     "jsdoc-to-markdown": "^3.0.2"
