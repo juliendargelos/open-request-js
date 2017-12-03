@@ -1,6 +1,6 @@
 {
   "name": "open-request-js",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Simply send http requests.",
   "main": "index.js",
   "scripts": {

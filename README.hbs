@@ -15,7 +15,7 @@ var request = new Request('/users/:id?lang=en');
 
 request.url.id = 4;
 request.url.parameters.lang = 'fr';
-request.string;
+request.url.string;
 // => "/users/4?lang=fr"
 
 request.send().then(response => console.log(response.json));
