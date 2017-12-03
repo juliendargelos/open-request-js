@@ -1,4 +1,3 @@
-var exec = require('child_process').exec;
 var fs = require('fs');
 
 var clean = function(file, destination) {
@@ -13,7 +12,6 @@ var clean = function(file, destination) {
   });
 };
 
-exec('browserify index.js > dist/index.js');
 clean('index.js', 'dist/open-request.js');
 clean('status.js', 'dist/status.js');
 clean('http-response.js', 'dist/http-response.js');

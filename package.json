@@ -1,12 +1,12 @@
 {
   "name": "open-request-js",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Simply send http requests.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.js",
-    "doc": "jsdoc2md index.js --template README.hbs --partial partials/*.hbs > README.md",
+    "doc": "jsdoc2md dist/open-request.js dist/http-response.js dist/status.js --template README.hbs --partial partials/*.hbs > README.md",
     "commit": "npm run doc;git add .;git commit;git push",
     "release": "npm run commit;npm publish"
   },
@@ -27,7 +27,6 @@
     "parameters-js": "^1.0.17"
   },
   "devDependencies": {
-    "browserify": "^14.5.0",
     "jsdoc-to-markdown": "^3.0.2"
   }
 }
