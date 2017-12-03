@@ -1,24 +1,19 @@
 var exec = require('child_process').exec;
 var fs = require('fs');
 
+var clean = function(file, destination) {
+  fs.readFile(file, 'utf8', function(error, data) {
+    if(error) throw error;
+
+    data = data.replace(/(module\.exports\s*=\s*|var\s+[^\s]+\s*=\s*require\(['"][^'"]+['"]\);?\n+)/g, '');
+
+    fs.writeFile(destination, data, function(error) {
+      if(error) throw error;
+    });
+  });
+};
+
 exec('browserify index.js > dist/index.js');
-
-fs.readFile('index.js', 'utf8', function(error, data) {
-  if(error) throw error;
-
-  data = data.replace(/(module\.exports\s*=\s*|var\s+[^\s]+\s*=\s*require\(['"][^'"]+['"]\);?\n+)/g, '');
-
-  fs.writeFile('dist/open-request.js', data, function(error) {
-    if(error) throw error;
-  });
-});
-
-fs.readFile('status.js', 'utf8', function(error, data) {
-  if(error) throw error;
-
-  data = data.replace(/(module\.exports\s*=\s*|var\s+[^\s]+\s*=\s*require\(['"][^'"]+['"]\);?\n+)/g, '');
-
-  fs.writeFile('dist/status.js', data, function(error) {
-    if(error) throw error;
-  });
-});
+clean('index.js', 'dist/open-request.js');
+clean('status.js', 'dist/status.js');
+clean('http-response.js', 'dist/http-response.js');

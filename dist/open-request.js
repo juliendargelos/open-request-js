@@ -7,38 +7,36 @@ class Request {
     return (new this(...args)).send();
   }
 
-  static get(url, data, format) {
-    return this.send(url, 'get', data, format);
+  static get(url, data) {
+    return this.send(url, 'get', data);
   }
 
-  static post(url, data, format) {
-    return this.send(url, 'post', data, format);
+  static post(url, data) {
+    return this.send(url, 'post', data);
   }
 
-  static put(url, data, format) {
-    return this.send(url, 'put', data, format);
+  static put(url, data) {
+    return this.send(url, 'put', data);
   }
 
-  static patch(url, data, format) {
-    return this.send(url, 'patch', data, format);
+  static patch(url, data) {
+    return this.send(url, 'patch', data);
   }
 
-  static delete(url, data, format) {
-    return this.send(url, 'delete', data, format);
+  static delete(url, data) {
+    return this.send(url, 'delete', data);
   }
 
-  constructor(url, method, data, format) {
+  constructor(url, method, data) {
     if(!(url instanceof Url) && typeof url === 'object' && url !== null) {
       var options = url;
       url = options.url;
       if(arguments.length < 2) method = options.method;
       if(arguments.length < 3) data = options.data;
-      if(arguments.length < 4) format = options.format;
     }
 
     this.url = new Url(url);
     this.method = method;
-    this.format = format;
     this.data = new Parameters(data);
   }
 
@@ -53,15 +51,6 @@ class Request {
 
   get actualMethod() {
     return this.method === 'get' ? 'get' : 'post';
-  }
-
-  get format() {
-    return this._format;
-  }
-
-  set format(v) {
-    v = (v + '').toLowerCase();
-    this._format = ['json', 'text', 'xml'].includes(v) ? v : 'json';
   }
 
   get url() {
@@ -84,7 +73,6 @@ class Request {
   }
 
   send(data) {
-    var format = this.format;
     var url = this.url.string;
     var method = this.actualMethod;
     var formData = method === 'get' ? null : this.data.clone.set(data).set({_method: this.method}).formData;
@@ -92,19 +80,32 @@ class Request {
     return new Promise((resolve, reject) => {
       try {
         var xhr = new XMLHttpRequest();
-        xhr.open(url, method);
+        xhr.open(method, url);
         xhr.onreadystatechange = () => {
           if(xhr.readyState === 4) {
-            var status = new Status(xhr.statusCode, xhr.statusText);
+            var response = new HttpResponse(xhr.responseText);
+            response.status = new Status(xhr.status, xhr.statusText);
 
-            if(status.error) reject(this.constructor[format](xhr.responseText), status);
-            else resolve(this.constructor[format](xhr.responseText), status);
+            if(response.status.error) reject(response);
+            else resolve(response);
           }
         };
+
+        xhr.onerror = function() {
+          var response = new HttpResponse(xhr.responseText);
+          response.status = new Status(xhr.status, xhr.statusText);
+
+          reject(response);
+        };
+
         xhr.send(formData);
       }
       catch(e) {
-        reject(e, new Status(0, 'Unable to connect to the server.'));
+        try {
+          var response = new HttpResponse(e);
+          response.status = new Status(0, 'Unable to connect to the server.');
+        }
+        catch(e) {}
       }
     });
   }

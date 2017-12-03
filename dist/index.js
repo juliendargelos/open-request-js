@@ -1,7 +1,58 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var Status = require('./status.js');
+
+module.exports = class HttpResponse {
+  constructor(data, status) {
+    this.data = data;
+    this.status = new Status(status);
+  }
+
+  get status() {
+    return this._status;
+  }
+
+  set status(v) {
+    if(v instanceof Status) this._status = v;
+    else this._status.set(v);
+  }
+
+  get text() {
+    return this.data;
+  }
+
+  get json() {
+    try {
+      return JSON.parse(this.data);
+    }
+    catch(e) {
+      return {};
+    }
+  }
+
+  get xml() {
+    try {
+      return (new DOMParser()).parseFromString(this.data, 'text/xml');
+    }
+    catch(e) {
+      return new DocumentFragment();
+    }
+  }
+
+  get html() {
+    try {
+      return (new DOMParser()).parseFromString(this.data, 'text/html');
+    }
+    catch(e) {
+      return new DocumentFragment();
+    }
+  }
+}
+
+},{"./status.js":6}],2:[function(require,module,exports){
 var Parameters = require('parameters-js');
 var Url = require('open-url-js');
 var Status = require('./status.js');
+var HttpResponse = require('./http-response.js');
 
 module.exports = class Request {
   static empty(value) {
@@ -12,38 +63,36 @@ module.exports = class Request {
     return (new this(...args)).send();
   }
 
-  static get(url, data, format) {
-    return this.send(url, 'get', data, format);
+  static get(url, data) {
+    return this.send(url, 'get', data);
   }
 
-  static post(url, data, format) {
-    return this.send(url, 'post', data, format);
+  static post(url, data) {
+    return this.send(url, 'post', data);
   }
 
-  static put(url, data, format) {
-    return this.send(url, 'put', data, format);
+  static put(url, data) {
+    return this.send(url, 'put', data);
   }
 
-  static patch(url, data, format) {
-    return this.send(url, 'patch', data, format);
+  static patch(url, data) {
+    return this.send(url, 'patch', data);
   }
 
-  static delete(url, data, format) {
-    return this.send(url, 'delete', data, format);
+  static delete(url, data) {
+    return this.send(url, 'delete', data);
   }
 
-  constructor(url, method, data, format) {
+  constructor(url, method, data) {
     if(!(url instanceof Url) && typeof url === 'object' && url !== null) {
       var options = url;
       url = options.url;
       if(arguments.length < 2) method = options.method;
       if(arguments.length < 3) data = options.data;
-      if(arguments.length < 4) format = options.format;
     }
 
     this.url = new Url(url);
     this.method = method;
-    this.format = format;
     this.data = new Parameters(data);
   }
 
@@ -58,15 +107,6 @@ module.exports = class Request {
 
   get actualMethod() {
     return this.method === 'get' ? 'get' : 'post';
-  }
-
-  get format() {
-    return this._format;
-  }
-
-  set format(v) {
-    v = (v + '').toLowerCase();
-    this._format = ['json', 'text', 'xml'].includes(v) ? v : 'json';
   }
 
   get url() {
@@ -89,7 +129,6 @@ module.exports = class Request {
   }
 
   send(data) {
-    var format = this.format;
     var url = this.url.string;
     var method = this.actualMethod;
     var formData = method === 'get' ? null : this.data.clone.set(data).set({_method: this.method}).formData;
@@ -97,19 +136,32 @@ module.exports = class Request {
     return new Promise((resolve, reject) => {
       try {
         var xhr = new XMLHttpRequest();
-        xhr.open(url, method);
+        xhr.open(method, url);
         xhr.onreadystatechange = () => {
           if(xhr.readyState === 4) {
-            var status = new Status(xhr.statusCode, xhr.statusText);
+            var response = new HttpResponse(xhr.responseText);
+            response.status = new Status(xhr.status, xhr.statusText);
 
-            if(status.error) reject(this.constructor[format](xhr.responseText), status);
-            else resolve(this.constructor[format](xhr.responseText), status);
+            if(response.status.error) reject(response);
+            else resolve(response);
           }
         };
+
+        xhr.onerror = function() {
+          var response = new HttpResponse(xhr.responseText);
+          response.status = new Status(xhr.status, xhr.statusText);
+
+          reject(response);
+        };
+
         xhr.send(formData);
       }
       catch(e) {
-        reject(e, new Status(0, 'Unable to connect to the server.'));
+        try {
+          var response = new HttpResponse(e);
+          response.status = new Status(0, 'Unable to connect to the server.');
+        }
+        catch(e) {}
       }
     });
   }
@@ -140,7 +192,7 @@ module.exports = class Request {
   }
 }
 
-},{"./status.js":5,"open-url-js":2,"parameters-js":3}],2:[function(require,module,exports){
+},{"./http-response.js":1,"./status.js":6,"open-url-js":3,"parameters-js":4}],3:[function(require,module,exports){
 var Pathname = require('pathname-js');
 var Parameters = require('parameters-js');
 
@@ -282,7 +334,7 @@ module.exports = class Url {
   }
 }
 
-},{"parameters-js":3,"pathname-js":4}],3:[function(require,module,exports){
+},{"parameters-js":4,"pathname-js":5}],4:[function(require,module,exports){
 module.exports = class Parameters {
 
   /**
@@ -655,7 +707,7 @@ module.exports = class Parameters {
   }
 }
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /** @extends Array */
 module.exports = class Pathname extends Array {
 
@@ -802,11 +854,10 @@ module.exports = class Pathname extends Array {
   }
 }
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = class Status {
-  constructor(code, text) {
-    this.code = parseInt(code) || 200;
-    this.text = text;
+  constructor(...args) {
+    this.set(...args);
   }
 
   get code() {
@@ -823,7 +874,7 @@ module.exports = class Status {
   }
 
   set text(v) {
-    this._text = v + '';
+    this._text = (v + '') || 'Unknown';
   }
 
   get info() {
@@ -841,6 +892,17 @@ module.exports = class Status {
   get error() {
     return this.code >= 400 || this.code === 0;
   }
+
+  set(code, text) {
+    if(typeof code === 'object') {
+      var options = code;
+      code = options.code;
+      if(arguments.length < 2) text = options.text;
+    }
+
+    this.code = code;
+    this.text = text;
+  }
 }
 
-},{}]},{},[1]);
+},{}]},{},[2]);

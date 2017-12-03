@@ -1,7 +1,6 @@
 module.exports = class Status {
-  constructor(code, text) {
-    this.code = parseInt(code) || 200;
-    this.text = text;
+  constructor(...args) {
+    this.set(...args);
   }
 
   get code() {
@@ -18,7 +17,7 @@ module.exports = class Status {
   }
 
   set text(v) {
-    this._text = v + '';
+    this._text = (v + '') || 'Unknown';
   }
 
   get info() {
@@ -35,5 +34,16 @@ module.exports = class Status {
 
   get error() {
     return this.code >= 400 || this.code === 0;
+  }
+
+  set(code, text) {
+    if(typeof code === 'object') {
+      var options = code;
+      code = options.code;
+      if(arguments.length < 2) text = options.text;
+    }
+
+    this.code = code;
+    this.text = text;
   }
 }
