@@ -1,10 +1,11 @@
 {
   "name": "open-request-js",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Simply send http requests.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify index.js > dist/open-request.js",
     "doc": "jsdoc2md index.js --template README.hbs --partial partials/*.hbs > README.md",
     "commit": "npm run doc;git add .;git commit;git push",
     "release": "npm run commit;npm publish"
@@ -22,10 +23,11 @@
   "author": "Julien Dargelos",
   "license": "MIT",
   "dependencies": {
-    "open-url-js": "^1.0.9",
-    "parameters-js": "^1.0.12"
+    "open-url-js": "^1.0.13",
+    "parameters-js": "^1.0.14"
   },
   "devDependencies": {
+    "browserify": "^14.5.0",
     "jsdoc-to-markdown": "^3.0.2"
   }
 }
