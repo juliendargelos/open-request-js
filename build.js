@@ -19,12 +19,9 @@ clean('http-response.js', 'dist/http-response.js');
 fs.readFile('index.js', 'utf8', function(error, data) {
   if(error) throw error;
 
-  data = "var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;\n" + data;
+  data = data.replace("var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;\n", '');
 
-  fs.writeFile('node.js', data, function(error) {
+  fs.writeFile('browser.js', data, function(error) {
     if(error) throw error;
   });
 });
-
-
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest

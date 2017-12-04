@@ -11,8 +11,8 @@ npm install open-request-js
 ## Usage
 
 ```javascript
-var Request = require('open-request-js'); // To be used from the browser.
-var Request = require('open-request-js/node.js'); // To be used from node.
+var Request = require('open-request-js'); // To be used from node.
+var Request = require('open-request-js/browser.js'); // To be used from browser.
 
 var request = new Request('/users/:id?lang=en');
 

@@ -1,3 +1,4 @@
+var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 var Parameters = require('parameters-js');
 var Url = require('open-url-js');
 var Status = require('./status.js');

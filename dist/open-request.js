@@ -1,3 +1,4 @@
+var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 class Request {
   static empty(value) {
     return [undefined, null].includes(value);
