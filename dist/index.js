@@ -10,10 +10,10 @@ module.exports = class Request {
 
   /**
    * Sends a request.
-   * @param {(string|Url)=} url The url of the request.
-   * @param {method=} url The request method.
+   * @param {(string|Url)} url The url of the request.
+   * @param {string} [method="get"] The request method.
    * @param {(Object|Parameters)=} data The data to send.
-   * @returns {Request} The sent request.
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   static send(...args) {
     return (new this(...args)).send();
@@ -23,7 +23,7 @@ module.exports = class Request {
    * Sends a get request.
    * @param {(string|Url)} url The url of the request.
    * @param {(Object|Parameters)=} data The data to send.
-   * @returns {Request} The sent request.
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   static get(url, data) {
     return this.send(url, 'get', data);
@@ -33,7 +33,7 @@ module.exports = class Request {
    * Sends a post request.
    * @param {(string|Url)} url The url of the request.
    * @param {(Object|Parameters)=} data The data to send.
-   * @returns {Request} The sent request.
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   static post(url, data) {
     return this.send(url, 'post', data);
@@ -43,7 +43,7 @@ module.exports = class Request {
    * Sends put get request.
    * @param {(string|Url)} url The url of the request.
    * @param {(Object|Parameters)=} data The data to send.
-   * @returns {Request} The sent request.
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   static put(url, data) {
     return this.send(url, 'put', data);
@@ -53,7 +53,7 @@ module.exports = class Request {
    * Sends patch get request.
    * @param {(string|Url)} url The url of the request.
    * @param {(Object|Parameters)=} data The data to send.
-   * @returns {Request} The sent request.
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   static patch(url, data) {
     return this.send(url, 'patch', data);
@@ -63,7 +63,7 @@ module.exports = class Request {
    * Sends a delete request.
    * @param {(string|Url)} url The url of the request.
    * @param {((Object|Parameters)|Parameters)=} data The data to send.
-   * @returns {Request} The sent request.
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   static delete(url, data) {
     return this.send(url, 'delete', data);
@@ -72,7 +72,7 @@ module.exports = class Request {
   /**
    * Creates a {@link Request} object.
    * @param {(string|Url)=} url The url of the request.
-   * @param {method=} url The request method.
+   * @param {string} [method="get"] The request method.
    * @param {(Object|Parameters)=} data The data to send.
    */
   constructor(url, method, data) {
@@ -141,7 +141,7 @@ module.exports = class Request {
   /**
    * Sends the request, merging the given data with the instance data to a new object.
    * @param {(Parameters|Object|string)?} data The data to send, in addition to the instance data.
-   * @returns {Promise} A promised to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   send(data) {
     var url = this.url.string;
@@ -173,6 +173,7 @@ module.exports = class Request {
    * Same as setting {@link Request#method} to 'get' then calling {@link Request#send} with <code>data</code>.
    * @param {(Parameters|Object|string)?} data Same as {@link Request#send}'s data argument.
    * @param {}
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   get(data) {
     this.method = 'get';
@@ -183,6 +184,7 @@ module.exports = class Request {
    * Same as setting {@link Request#method} to 'post' then calling {@link Request#send} with <code>data</code>.
    * @param {(Parameters|Object|string)?} data Same as {@link Request#send}'s data argument.
    * @param {}
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   post(data) {
     this.method = 'post';
@@ -193,6 +195,7 @@ module.exports = class Request {
    * Same as setting {@link Request#method} to 'put' then calling {@link Request#send} with <code>data</code>.
    * @param {(Parameters|Object|string)?} data Same as {@link Request#send}'s data argument.
    * @param {}
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   put(data) {
     this.method = 'put';
@@ -203,6 +206,7 @@ module.exports = class Request {
    * Same as setting {@link Request#method} to 'patch' then calling {@link Request#send} with <code>data</code>.
    * @param {(Parameters|Object|string)?} data Same as {@link Request#send}'s data argument.
    * @param {}
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   patch(data) {
     this.method = 'patch';
@@ -213,6 +217,7 @@ module.exports = class Request {
    * Same as setting {@link Request#method} to 'delete' then calling {@link Request#send} with <code>data</code>.
    * @param {(Parameters|Object|string)?} data Same as {@link Request#send}'s data argument.
    * @param {}
+   * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
   delete(data) {
     this.method = 'delete';

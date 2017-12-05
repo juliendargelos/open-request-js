@@ -32,7 +32,7 @@ request.send().then(response => console.log(response.json));
 **Kind**: global class  
 
 * [Request](#Request)
-    * [new Request([url], [url], [data])](#new_Request_new)
+    * [new Request([url], [method], [data])](#new_Request_new)
     * _instance_
         * [.method](#Request+method) : <code>string</code>
         * [.actualMethod](#Request+actualMethod) : <code>string</code>
@@ -40,24 +40,24 @@ request.send().then(response => console.log(response.json));
         * [.data](#Request+data) : <code>Parameters</code> \| <code>Object</code> \| <code>string</code>
         * [.send(data)](#Request+send) ⇒ <code>Promise</code>
     * _static_
-        * [.send([url], [url], [data])](#Request.send) ⇒ [<code>Request</code>](#Request)
-        * [.get(url, [data])](#Request.get) ⇒ [<code>Request</code>](#Request)
-        * [.post(url, [data])](#Request.post) ⇒ [<code>Request</code>](#Request)
-        * [.put(url, [data])](#Request.put) ⇒ [<code>Request</code>](#Request)
-        * [.patch(url, [data])](#Request.patch) ⇒ [<code>Request</code>](#Request)
-        * [.delete(url, [data])](#Request.delete) ⇒ [<code>Request</code>](#Request)
+        * [.send(url, [method], [data])](#Request.send) ⇒ <code>Promise</code>
+        * [.get(url, [data])](#Request.get) ⇒ <code>Promise</code>
+        * [.post(url, [data])](#Request.post) ⇒ <code>Promise</code>
+        * [.put(url, [data])](#Request.put) ⇒ <code>Promise</code>
+        * [.patch(url, [data])](#Request.patch) ⇒ <code>Promise</code>
+        * [.delete(url, [data])](#Request.delete) ⇒ <code>Promise</code>
 
 <a name="new_Request_new"></a>
 
-### new Request([url], [url], [data])
+### new Request([url], [method], [data])
 Creates a [Request](#Request) object.
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| [url] | <code>string</code> \| <code>Url</code> | The url of the request. |
-| [url] | <code>method</code> | The request method. |
-| [data] | <code>Object</code> \| <code>Parameters</code> | The data to send. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [url] | <code>string</code> \| <code>Url</code> |  | The url of the request. |
+| [method] | <code>string</code> | <code>&quot;\&quot;get\&quot;&quot;</code> | The request method. |
+| [data] | <code>Object</code> \| <code>Parameters</code> |  | The data to send. |
 
 <a name="Request+method"></a>
 
@@ -90,7 +90,7 @@ The request data. When set it will be parsed to a Parameters object.
 Sends the request, merging the given data with the instance data to a new object.
 
 **Kind**: instance method of [<code>Request</code>](#Request)  
-**Returns**: <code>Promise</code> - A promised to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A [HttpResponse](#HttpResponse) object is always passed.  
+**Returns**: <code>Promise</code> - A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A [HttpResponse](#HttpResponse) object is always passed.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -98,25 +98,25 @@ Sends the request, merging the given data with the instance data to a new object
 
 <a name="Request.send"></a>
 
-### Request.send([url], [url], [data]) ⇒ [<code>Request</code>](#Request)
+### Request.send(url, [method], [data]) ⇒ <code>Promise</code>
 Sends a request.
 
 **Kind**: static method of [<code>Request</code>](#Request)  
-**Returns**: [<code>Request</code>](#Request) - The sent request.  
+**Returns**: <code>Promise</code> - A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A [HttpResponse](#HttpResponse) object is always passed.  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| [url] | <code>string</code> \| <code>Url</code> | The url of the request. |
-| [url] | <code>method</code> | The request method. |
-| [data] | <code>Object</code> \| <code>Parameters</code> | The data to send. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| url | <code>string</code> \| <code>Url</code> |  | The url of the request. |
+| [method] | <code>string</code> | <code>&quot;\&quot;get\&quot;&quot;</code> | The request method. |
+| [data] | <code>Object</code> \| <code>Parameters</code> |  | The data to send. |
 
 <a name="Request.get"></a>
 
-### Request.get(url, [data]) ⇒ [<code>Request</code>](#Request)
+### Request.get(url, [data]) ⇒ <code>Promise</code>
 Sends a get request.
 
 **Kind**: static method of [<code>Request</code>](#Request)  
-**Returns**: [<code>Request</code>](#Request) - The sent request.  
+**Returns**: <code>Promise</code> - A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A [HttpResponse](#HttpResponse) object is always passed.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -125,11 +125,11 @@ Sends a get request.
 
 <a name="Request.post"></a>
 
-### Request.post(url, [data]) ⇒ [<code>Request</code>](#Request)
+### Request.post(url, [data]) ⇒ <code>Promise</code>
 Sends a post request.
 
 **Kind**: static method of [<code>Request</code>](#Request)  
-**Returns**: [<code>Request</code>](#Request) - The sent request.  
+**Returns**: <code>Promise</code> - A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A [HttpResponse](#HttpResponse) object is always passed.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -138,11 +138,11 @@ Sends a post request.
 
 <a name="Request.put"></a>
 
-### Request.put(url, [data]) ⇒ [<code>Request</code>](#Request)
+### Request.put(url, [data]) ⇒ <code>Promise</code>
 Sends put get request.
 
 **Kind**: static method of [<code>Request</code>](#Request)  
-**Returns**: [<code>Request</code>](#Request) - The sent request.  
+**Returns**: <code>Promise</code> - A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A [HttpResponse](#HttpResponse) object is always passed.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -151,11 +151,11 @@ Sends put get request.
 
 <a name="Request.patch"></a>
 
-### Request.patch(url, [data]) ⇒ [<code>Request</code>](#Request)
+### Request.patch(url, [data]) ⇒ <code>Promise</code>
 Sends patch get request.
 
 **Kind**: static method of [<code>Request</code>](#Request)  
-**Returns**: [<code>Request</code>](#Request) - The sent request.  
+**Returns**: <code>Promise</code> - A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A [HttpResponse](#HttpResponse) object is always passed.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -164,11 +164,11 @@ Sends patch get request.
 
 <a name="Request.delete"></a>
 
-### Request.delete(url, [data]) ⇒ [<code>Request</code>](#Request)
+### Request.delete(url, [data]) ⇒ <code>Promise</code>
 Sends a delete request.
 
 **Kind**: static method of [<code>Request</code>](#Request)  
-**Returns**: [<code>Request</code>](#Request) - The sent request.  
+**Returns**: <code>Promise</code> - A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A [HttpResponse](#HttpResponse) object is always passed.  
 
 | Param | Type | Description |
 | --- | --- | --- |
