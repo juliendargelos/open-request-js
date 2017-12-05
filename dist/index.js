@@ -78,14 +78,15 @@ module.exports = class Request {
   constructor(url, method, data) {
     if(!(url instanceof Url) && typeof url === 'object' && url !== null) {
       var options = url;
-      url = options.url;
-      if(arguments.length < 2) method = options.method;
-      if(arguments.length < 3) data = options.data;
+      this.url = options.url;
+      this.method = method || options.method;
+      this.data = new Parameters(data || options.data);
     }
-
-    this.url = new Url(url);
-    this.method = method;
-    this.data = new Parameters(data);
+    else {
+      this.url = new Url(url);
+      this.method = method;
+      this.data = new Parameters(data);
+    }
   }
 
   /**
@@ -153,29 +154,17 @@ module.exports = class Request {
         xhr.open(method, url);
         xhr.onreadystatechange = () => {
           if(xhr.readyState === 4) {
-            var response = new HttpResponse(xhr.responseText);
-            response.status = new Status(xhr.status, xhr.statusText);
-
+            var response = new HttpResponse(xhr.responseText, {code: xhr.status, text: xhr.statusText});
             if(response.status.error) reject(response);
             else resolve(response);
           }
         };
 
-        xhr.onerror = function() {
-          var response = new HttpResponse(xhr.responseText);
-          response.status = new Status(xhr.status, xhr.statusText);
-
-          reject(response);
-        };
-
+        xhr.onerror = () => reject(new HttpResponse(xhr.responseText, new Status(xhr.status, xhr.statusText)));
         xhr.send(formData);
       }
       catch(e) {
-        try {
-          var response = new HttpResponse(e);
-          response.status = new Status(0, 'Unable to connect to the server.');
-        }
-        catch(e) {}
+        reject(new HttpResponse(e, {code: 0, text: 'Unable to connect to the server.'}));
       }
     });
   }
