@@ -1,4 +1,6 @@
 # Open Request JS 📣
+[![npm version](https://badge.fury.io/js/open-request-js.svg)](https://badge.fury.io/js/open-request-js)
+[![Maintainability](https://api.codeclimate.com/v1/badges/98eed689838832855d7b/maintainability)](https://codeclimate.com/github/juliendargelos/open-request-js/maintainability)
 
 Simply send http requests.
 
