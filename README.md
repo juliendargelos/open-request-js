@@ -18,7 +18,7 @@ var Request = require('open-request-js/dist'); // To be used from browser.
 
 var request = new Request('/users/:id?lang=en');
 
-request.url.id = 4;
+request.url.path.id = 4;
 request.url.parameters.lang = 'fr';
 request.url.string;
 // => "/users/4?lang=fr"
