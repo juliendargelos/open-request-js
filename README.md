@@ -61,7 +61,7 @@ Creates a [Request](#Request) object.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [url] | <code>string</code> \| <code>Url</code> |  | The url of the request. |
-| [method] | <code>string</code> | <code>&quot;\&quot;get\&quot;&quot;</code> | The request method. |
+| [method] | <code>string</code> | <code>&quot;get&quot;</code> | The request method. |
 | [data] | <code>Object</code> \| <code>Parameters</code> |  | The data to send. |
 
 <a name="Request+method"></a>
@@ -112,7 +112,7 @@ Sends a request.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | url | <code>string</code> \| <code>Url</code> |  | The url of the request. |
-| [method] | <code>string</code> | <code>&quot;\&quot;get\&quot;&quot;</code> | The request method. |
+| [method] | <code>string</code> | <code>&quot;get&quot;</code> | The request method. |
 | [data] | <code>Object</code> \| <code>Parameters</code> |  | The data to send. |
 
 <a name="Request.get"></a>

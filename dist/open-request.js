@@ -6,7 +6,7 @@ class Request {
   /**
    * Sends a request.
    * @param {(string|Url)} url The url of the request.
-   * @param {string} [method="get"] The request method.
+   * @param {string} [method=get] The request method.
    * @param {(Object|Parameters)=} data The data to send.
    * @returns {Promise} A promise to resolved when the request finished and succeed, or to be rejected if any error occurs (including http errors). A {@link HttpResponse} object is always passed.
    */
@@ -67,7 +67,7 @@ class Request {
   /**
    * Creates a {@link Request} object.
    * @param {(string|Url)=} url The url of the request.
-   * @param {string} [method="get"] The request method.
+   * @param {string} [method=get] The request method.
    * @param {(Object|Parameters)=} data The data to send.
    */
   constructor(url, method, data) {
