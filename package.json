@@ -1,6 +1,6 @@
 {
   "name": "open-request-js",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "description": "Simply send http requests.",
   "main": "index.js",
   "scripts": {
@@ -23,8 +23,8 @@
   "author": "Julien Dargelos",
   "license": "MIT",
   "dependencies": {
-    "open-url-js": "^1.0.28",
-    "parameters-js": "^1.0.28",
+    "open-url-js": "^1.0.29",
+    "parameters-js": "^1.0.29",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
